@@ -1,69 +1,40 @@
 # ember-net-socket-forge
 
-`ember-net-socket-forge` packages a practical networking exercise in TypeScript. The emphasis is on deterministic behavior, a small public API, and examples that explain the tradeoffs.
+`ember-net-socket-forge` is a compact TypeScript repository for networking, centered on this goal: Design a TypeScript verification harness for socket systems, covering constraint solving, bounded scenario files, and failure-oriented tests.
 
-## How I Read Ember Net Socket Forge
+## Why This Exists
 
-The useful thing to inspect here is how the same score rule is represented in code, metadata, and examples. If those three pieces disagree, the audit script should make the drift visible.
+The point is to make a small domain rule concrete enough that a reader can change it and immediately see what broke.
 
-## Main Behaviors
+## Ember Net Socket Forge Review Notes
 
-- Includes extended examples for retry behavior, including `surge` and `degraded`.
-- Documents policy decisions tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+Start with `packet span` and `packet span`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## Problem Shape
+## Capabilities
 
-This is not a wrapper around a service. It is a self-contained project that shows how the model behaves when demand, capacity, latency, risk, and weight move in different directions.
+- `fixtures/domain_review.csv` adds cases for packet span and retry pressure.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/ember-net-socket-walkthrough.md` walks through the case spread.
+- The TypeScript code includes a review path for `packet span` and `packet span`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Repository Map
+## Implementation Shape
 
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-- `package.json`: Node package scripts
+The implementation keeps the scoring rule plain: reward signal and confidence, preserve slack, penalize drag, then classify the result into a review lane.
 
-## Internal Model
+The TypeScript addition stays small enough to inspect in one sitting.
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The TypeScript project keeps types close to the model and compiles before running its checks.
-
-## How To Run It
+## Local Usage
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Verification
 
-## Scenario Walkthrough
+The same command runs the local verification path. The highest-scoring domain case is `stale` at 243, which lands in `ship`. The most cautious case is `baseline` at 108, which lands in `watch`.
 
-The examples are meant to be readable before they are exhaustive. They cover enough variation to show how latency and risk can pull a decision below the threshold.
+## Roadmap
 
-## Validation
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Known Edges
-
-The examples cover useful edges, not every edge. A larger version would add malformed-input tests, richer reports, and deeper domain parsers.
-
-## Follow-Up Work
-
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more networking fixture that focuses on a malformed or borderline input.
-
-## Run It Locally
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
+This remains a local project with deterministic fixtures. It does not depend on credentials, hosted services, or live data. Future work should add richer malformed inputs before widening the public API.

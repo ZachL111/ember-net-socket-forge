@@ -1,0 +1,73 @@
+{
+  "repo": "ember-net-socket-forge",
+  "language": "TypeScript",
+  "category": "Networking",
+  "goal": "Design a TypeScript verification harness for socket systems, covering constraint solving, bounded scenario files, and failure-oriented tests.",
+  "review_model": {
+    "terms": [
+      "packet span",
+      "retry pressure",
+      "route drift",
+      "socket risk"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "packet span",
+      "signal": 54,
+      "slack": 27,
+      "drag": 28,
+      "confidence": 57,
+      "score": 108,
+      "lane": "watch"
+    },
+    {
+      "name": "stress",
+      "focus": "retry pressure",
+      "signal": 70,
+      "slack": 31,
+      "drag": 8,
+      "confidence": 60,
+      "score": 207,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "route drift",
+      "signal": 85,
+      "slack": 46,
+      "drag": 11,
+      "confidence": 48,
+      "score": 231,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "socket risk",
+      "signal": 74,
+      "slack": 45,
+      "drag": 23,
+      "confidence": 70,
+      "score": 194,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "packet span",
+      "signal": 85,
+      "slack": 36,
+      "drag": 13,
+      "confidence": 76,
+      "score": 243,
+      "lane": "ship"
+    }
+  ]
+}
